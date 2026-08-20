@@ -9,6 +9,7 @@ import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import FloatingNav from '@/components/dashboard/FloatingNav';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import DashboardNavbar from '@/components/DashboardNavbar';
 
 interface Resume {
   id: string;
@@ -25,6 +26,7 @@ const ResumesUploaded = () => {
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   useEffect(() => {
     if (!isLoading && !userProfile) {
@@ -40,7 +42,7 @@ const ResumesUploaded = () => {
 
   const fetchResumes = async () => {
     if (!userProfile) return;
-    
+
     try {
       const { data, error } = await supabase
         .from('resumes')
@@ -70,7 +72,7 @@ const ResumesUploaded = () => {
     setUploading(true);
     try {
       const fileName = `${userProfile.id}/${Date.now()}_${file.name}`;
-      
+
       const { error: uploadError } = await supabase.storage
         .from('resumes')
         .upload(fileName, file);
@@ -135,9 +137,12 @@ const ResumesUploaded = () => {
       </Helmet>
 
       <div className="min-h-screen bg-background">
-        <DashboardSidebar />
-        
-        <main className="ml-20 lg:ml-[280px] transition-all duration-300 pb-32">
+        <DashboardNavbar />
+        <DashboardSidebar
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
+        />
+        <main className={`ml-0 ${isCollapsed ? 'lg:ml-[100px]' : 'lg:ml-[280px]'} transition-all duration-300 pt-24 pb-12`}>
           <div className="max-w-6xl mx-auto px-6 py-8">
             <div className="flex items-center justify-between mb-8">
               <div>
@@ -152,7 +157,7 @@ const ResumesUploaded = () => {
                   accept=".pdf"
                   className="hidden"
                 />
-                <Button 
+                <Button
                   onClick={() => fileInputRef.current?.click()}
                   disabled={uploading}
                   className="btn-primary flex items-center gap-2"
@@ -172,7 +177,7 @@ const ResumesUploaded = () => {
                 <Upload className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-lg font-semibold text-primary mb-2">No uploads yet</h3>
                 <p className="text-muted-foreground mb-6">Upload your existing resume for AI analysis</p>
-                <Button 
+                <Button
                   onClick={() => fileInputRef.current?.click()}
                   className="btn-primary"
                 >
@@ -224,7 +229,7 @@ const ResumesUploaded = () => {
           </div>
         </main>
 
-        <FloatingNav />
+        {/* <FloatingNav /> */}
       </div>
     </>
   );

@@ -15,6 +15,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import DashboardNavbar from '@/components/DashboardNavbar';
+
 
 interface Job {
   id: string;
@@ -33,6 +35,8 @@ const JobsList = () => {
   const [loading, setLoading] = useState(true);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const { toast } = useToast();
+    const [isCollapsed, setIsCollapsed] = useState(false);
+
 
   useEffect(() => {
     if (!isLoading && !userProfile) {
@@ -105,9 +109,12 @@ const JobsList = () => {
       </Helmet>
 
       <div className="min-h-screen bg-background">
-        <DashboardSidebar />
-        
-        <main className="ml-20 lg:ml-[280px] transition-all duration-300 pb-32">
+<DashboardNavbar/>
+        <DashboardSidebar
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
+        />        
+        <main className={`ml-0 ${isCollapsed ? 'lg:ml-[100px]' : 'lg:ml-[280px]'} transition-all duration-300 pt-24 pb-12`}>
           <div className="max-w-6xl mx-auto px-6 py-8">
             <div className="flex items-center justify-between mb-8">
               <div>
@@ -189,7 +196,7 @@ const JobsList = () => {
           </div>
         </main>
 
-        <FloatingNav />
+        {/* <FloatingNav /> */}
 
         {/* Cover Letter Dialog */}
         <Dialog open={!!selectedJob} onOpenChange={() => setSelectedJob(null)}>

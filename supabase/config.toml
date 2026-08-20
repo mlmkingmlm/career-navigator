@@ -7,7 +7,7 @@ verify_jwt = false
 verify_jwt = false
 
 [functions.resource-chat]
-verify_jwt = false
+verify_jwt = true
 
 [functions.skill-gap-analysis]
 verify_jwt = false

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import { 
-  FileText, 
-  BookOpen, 
-  Briefcase, 
-  MessageSquare, 
-  Target, 
+import {
+  FileText,
+  BookOpen,
+  Briefcase,
+  MessageSquare,
+  Target,
   Upload,
   Sparkles,
   ArrowRight,
@@ -83,6 +83,8 @@ const Dashboard = () => {
     chatsCount: 0,
   });
 
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
   useEffect(() => {
     if (!isLoading && !userProfile) {
       navigate('/');
@@ -140,9 +142,11 @@ const Dashboard = () => {
 
       <div className="min-h-screen bg-background">
         <DashboardNavbar />
-        <DashboardSidebar />
-        
-        <main className="ml-20 lg:ml-[280px] transition-all duration-300 pt-24 pb-12">
+        <DashboardSidebar
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
+        />
+        <main className={`ml-0 ${isCollapsed ? 'lg:ml-[100px]' : 'lg:ml-[280px]'} transition-all duration-300 pt-24 pb-12`}>
           {/* API Key Input */}
           <div className="max-w-6xl mx-auto px-6 pt-4">
             <div className="flex items-center gap-2 max-w-xs">
@@ -174,25 +178,25 @@ const Dashboard = () => {
                 </motion.div>
                 <div>
                   <h1 className="text-3xl md:text-4xl font-bold text-primary">
-                    <TypewriterText 
-                      text={`Welcome, ${userProfile.name}!`} 
-                      delay={300} 
-                      speed={60} 
+                    <TypewriterText
+                      text={`Welcome, ${userProfile.name}!`}
+                      delay={300}
+                      speed={60}
                     />
                   </h1>
                 </div>
               </div>
-              
+
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.5 }}
                 className="text-lg text-muted-foreground max-w-2xl"
               >
-                <TypewriterText 
-                  text="Start your career journey with us. Explore our AI-powered tools to build your dream career." 
-                  delay={1500} 
-                  speed={30} 
+                <TypewriterText
+                  text="Start your career journey with us. Explore our AI-powered tools to build your dream career."
+                  delay={1500}
+                  speed={30}
                 />
               </motion.p>
             </motion.div>
@@ -235,7 +239,7 @@ const Dashboard = () => {
                 <TrendingUp className="w-5 h-5 text-secondary" />
                 Quick Actions
               </h2>
-              
+
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {featureCards.map((card, index) => (
                   <motion.div
@@ -266,7 +270,7 @@ const Dashboard = () => {
             </motion.div>
           </div>
         </main>
-      </div>
+      </div >
     </>
   );
 };

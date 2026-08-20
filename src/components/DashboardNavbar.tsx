@@ -45,7 +45,7 @@ const DashboardNavbar = () => {
         isScrolled ? 'glass-navbar' : 'bg-background/80 backdrop-blur-md'
       }`}
     >
-      <div className="container-custom">
+      <div className="container-custom px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/dashboard" className="flex items-center gap-2">

@@ -9,6 +9,8 @@ import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import FloatingNav from '@/components/dashboard/FloatingNav';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import DashboardNavbar from '@/components/DashboardNavbar';
+
 
 interface ChatHistory {
   id: string;
@@ -24,6 +26,8 @@ const ChatHistoryList = () => {
   const [chats, setChats] = useState<ChatHistory[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
 
   useEffect(() => {
     if (!isLoading && !userProfile) {
@@ -39,7 +43,7 @@ const ChatHistoryList = () => {
 
   const fetchChats = async () => {
     if (!userProfile) return;
-    
+
     try {
       const { data, error } = await supabase
         .from('chat_history')
@@ -86,9 +90,12 @@ const ChatHistoryList = () => {
       </Helmet>
 
       <div className="min-h-screen bg-background">
-        <DashboardSidebar />
-        
-        <main className="ml-20 lg:ml-[280px] transition-all duration-300 pb-32">
+        <DashboardNavbar />
+        <DashboardSidebar
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
+        />
+        <main className={`ml-0 ${isCollapsed ? 'lg:ml-[100px]' : 'lg:ml-[280px]'} transition-all duration-300 pt-24 pb-12`}>
           <div className="max-w-6xl mx-auto px-6 py-8">
             <div className="flex items-center justify-between mb-8">
               <div>
@@ -158,7 +165,7 @@ const ChatHistoryList = () => {
           </div>
         </main>
 
-        <FloatingNav />
+        {/* <FloatingNav /> */}
       </div>
     </>
   );
