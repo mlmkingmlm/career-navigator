@@ -22,7 +22,6 @@ const Index = () => {
       </Helmet>
       
       <main className="min-h-screen bg-background overflow-x-hidden">
-        <LandingNavbar />
         <section id="hero">
           <HeroSection />
         </section>
@@ -37,7 +36,6 @@ const Index = () => {
         <section id="about">
           <CTASection />
         </section>
-        <Footer />
       </main>
     </>
   );

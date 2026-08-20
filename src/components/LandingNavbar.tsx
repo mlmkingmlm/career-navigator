@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X, Sparkles } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import GetStartedModal from './GetStartedModal';
 import { useUser } from '@/contexts/UserContext';
 
 const navLinks = [
-  { name: 'Home', href: '#hero' },
-  { name: 'Features', href: '#features' },
-  { name: 'Journey', href: '#journey' },
-  { name: 'About', href: '#about' },
+  { name: 'Home', route: '/' },
+  { name: 'Features', route: '/features' },
+  { name: 'Journey', route: '/journey' },
+  { name: 'About', route: '/about' },
 ];
 
 const LandingNavbar = () => {
@@ -19,36 +19,37 @@ const LandingNavbar = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const { userProfile } = useUser();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-      
-      // Update active section based on scroll position
-      const sections = ['hero', 'features', 'journey', 'about'];
-      for (const section of sections.reverse()) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 100) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     setIsScrolled(window.scrollY > 20);
 
-  const scrollToSection = (href: string) => {
-    const id = href.replace('#', '');
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    setIsMobileMenuOpen(false);
-  };
+  //     // Update active section based on scroll position
+  //     const sections = ['hero', 'features', 'journey', 'about'];
+  //     for (const section of sections.reverse()) {
+  //       const element = document.getElementById(section);
+  //       if (element) {
+  //         const rect = element.getBoundingClientRect();
+  //         if (rect.top <= 100) {
+  //           setActiveSection(section);
+  //           break;
+  //         }
+  //       }
+  //     }
+  //   };
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, []);
+
+  // const scrollToSection = (href: string) => {
+  //   const id = href.replace('#', '');
+  //   const element = document.getElementById(id);
+  //   if (element) {
+  //     element.scrollIntoView({ behavior: 'smooth' });
+  //   }
+  //   setIsMobileMenuOpen(false);
+  // };
 
   const handleGetStarted = () => {
     if (userProfile) {
@@ -64,11 +65,10 @@ const LandingNavbar = () => {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? 'glass-navbar' : 'bg-transparent'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass-navbar' : 'bg-transparent'
+          }`}
       >
-        <div className="container-custom">
+        <div className="container-custom bg-white">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 group">
@@ -83,18 +83,21 @@ const LandingNavbar = () => {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-6">
               {navLinks.map((link) => (
-                <button
+                <Link
                   key={link.name}
-                  onClick={() => scrollToSection(link.href)}
-                  className={`relative text-foreground/80 font-medium hover:text-primary transition-colors duration-300 group ${
-                    activeSection === link.href.replace('#', '') ? 'text-primary' : ''
-                  }`}
+                  to={link.route}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`relative text-foreground/80 font-medium hover:text-primary transition-colors duration-300 group ${location.pathname === link.route ? 'text-primary' : ''
+                    }`}
                 >
                   {link.name}
-                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-secondary transition-all duration-300 ${
-                    activeSection === link.href.replace('#', '') ? 'w-full' : 'w-0 group-hover:w-full'
-                  }`} />
-                </button>
+                  <span
+                    className={`absolute -bottom-1 left-0 h-0.5 bg-secondary transition-all duration-300 ${location.pathname === link.route
+                        ? 'w-full'
+                        : 'w-0 group-hover:w-full'
+                      }`}
+                  />
+                </Link>
               ))}
             </div>
 
@@ -126,15 +129,13 @@ const LandingNavbar = () => {
           >
             <div className="container-custom py-6 flex flex-col gap-4">
               {navLinks.map((link) => (
-                <button
+                <Link
                   key={link.name}
-                  onClick={() => scrollToSection(link.href)}
-                  className={`font-medium py-2 transition-colors text-left ${
-                    activeSection === link.href.replace('#', '') ? 'text-primary' : 'text-foreground/80 hover:text-primary'
-                  }`}
+                  to={link.route}
+                  className={`font-medium py-2 transition-colors text-left`}
                 >
                   {link.name}
-                </button>
+                </Link>
               ))}
               <button onClick={handleGetStarted} className="btn-primary text-center mt-2">
                 Get Started
@@ -143,7 +144,7 @@ const LandingNavbar = () => {
           </motion.div>
         )}
       </motion.nav>
-      
+
       <GetStartedModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );

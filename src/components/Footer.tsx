@@ -1,4 +1,12 @@
-import { Sparkles, Linkedin, Twitter, Github, Mail } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+const navLinks = [
+  { name: 'Home', route: '/' },
+  { name: 'Features', route: '/features' },
+  { name: 'Journey', route: '/journey' },
+  { name: 'About', route: '/about' },
+];
 
 const Footer = () => {
   return (
@@ -16,7 +24,7 @@ const Footer = () => {
               </span>
             </a>
             <p className="text-primary-foreground/70 max-w-md">
-              Your personal AI mentor guiding you from resume creation to job success. 
+              Your personal AI mentor guiding you from resume creation to job success.
               Transform your career with intelligent insights.
             </p>
           </div>
@@ -25,14 +33,14 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              {['Home', 'Features', 'Career Journey', 'Get Started'].map((link) => (
-                <li key={link}>
-                  <a
-                    href={`#${link.toLowerCase().replace(' ', '-')}`}
+              {navLinks.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    to={link.route}
                     className="text-primary-foreground/70 hover:text-secondary transition-colors"
                   >
-                    {link}
-                  </a>
+                    {link.name}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -41,7 +49,7 @@ const Footer = () => {
           {/* Connect */}
           <div>
             <h4 className="font-semibold mb-4">Connect</h4>
-            <div className="flex gap-4">
+            {/* <div className="flex gap-4">
               {[
                 { icon: Linkedin, href: '#' },
                 { icon: Twitter, href: '#' },
@@ -56,14 +64,14 @@ const Footer = () => {
                   <social.icon className="w-5 h-5" />
                 </a>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
 
         {/* Bottom bar */}
         <div className="pt-8 border-t border-primary-foreground/20 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-primary-foreground/60">
-            © 2024 AI Career Navigator. All rights reserved.
+            © 2024 {import.meta.env.VITE_APP_NAME}. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm text-primary-foreground/60">
             <a href="#" className="hover:text-secondary transition-colors">Privacy Policy</a>

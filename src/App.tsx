@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { UserProvider } from "./contexts/UserContext";
 import Index from "./pages/Index";
@@ -18,8 +18,22 @@ import ResumesUploaded from "./pages/dashboard/ResumesUploaded";
 import ResourcesList from "./pages/dashboard/ResourcesList";
 import JobsList from "./pages/dashboard/JobsList";
 import ChatHistoryList from "./pages/dashboard/ChatHistoryList";
+import Features from "./pages/Features";
+import Journey from "./pages/Journey";
+import About from "./pages/About";
+import LandingNavbar from "./components/LandingNavbar";
+import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
+
+const LandingLayout = () => (
+  <>
+    <LandingNavbar />
+    <Outlet />
+    <Footer/>
+  </>
+);
 
 const App = () => (
   <HelmetProvider>
@@ -29,8 +43,14 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
+          <ScrollToTop/>
             <Routes>
-              <Route path="/" element={<Index />} />
+              <Route element={<LandingLayout />}>
+                <Route path="/" element={<Index />} />
+                <Route path="/features" element={<Features />} />
+                <Route path="/journey" element={<Journey />} />
+                <Route path="/about" element={<About />} />
+              </Route>
               <Route path="/resume-screening" element={<ResumeScreening />} />
               <Route path="/resume-builder" element={<ResumeBuilder />} />
               <Route path="/resources" element={<ResourceChat />} />

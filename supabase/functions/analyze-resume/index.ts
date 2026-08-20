@@ -9,21 +9,21 @@ const corsHeaders = {
 // Heuristic-based section extraction from text
 function extractSectionsFromText(text: string): { sectionName: string; content: string }[] {
   const sectionPatterns = [
-    { pattern: /(?:^|\n)\s*(SUMMARY|PROFESSIONAL\s*SUMMARY|OBJECTIVE|CAREER\s*OBJECTIVE|PROFILE)\s*[:\-]?\s*\n/gi, name: 'Summary' },
-    { pattern: /(?:^|\n)\s*(EXPERIENCE|WORK\s*EXPERIENCE|PROFESSIONAL\s*EXPERIENCE|EMPLOYMENT\s*HISTORY|WORK\s*HISTORY)\s*[:\-]?\s*\n/gi, name: 'Experience' },
-    { pattern: /(?:^|\n)\s*(EDUCATION|ACADEMIC\s*BACKGROUND|QUALIFICATIONS|ACADEMIC\s*QUALIFICATIONS)\s*[:\-]?\s*\n/gi, name: 'Education' },
-    { pattern: /(?:^|\n)\s*(SKILLS|TECHNICAL\s*SKILLS|CORE\s*SKILLS|KEY\s*SKILLS|COMPETENCIES|CORE\s*COMPETENCIES)\s*[:\-]?\s*\n/gi, name: 'Skills' },
-    { pattern: /(?:^|\n)\s*(PROJECTS|KEY\s*PROJECTS|PERSONAL\s*PROJECTS|ACADEMIC\s*PROJECTS)\s*[:\-]?\s*\n/gi, name: 'Projects' },
-    { pattern: /(?:^|\n)\s*(CERTIFICATIONS?|LICENSES?|CREDENTIALS?|PROFESSIONAL\s*CERTIFICATIONS?)\s*[:\-]?\s*\n/gi, name: 'Certifications' },
-    { pattern: /(?:^|\n)\s*(ACHIEVEMENTS?|ACCOMPLISHMENTS?|AWARDS?|HONORS?)\s*[:\-]?\s*\n/gi, name: 'Achievements' },
-    { pattern: /(?:^|\n)\s*(LANGUAGES?|LANGUAGE\s*SKILLS?)\s*[:\-]?\s*\n/gi, name: 'Languages' },
-    { pattern: /(?:^|\n)\s*(INTERESTS?|HOBBIES?|ACTIVITIES?|EXTRACURRICULAR)\s*[:\-]?\s*\n/gi, name: 'Interests' },
-    { pattern: /(?:^|\n)\s*(REFERENCES?)\s*[:\-]?\s*\n/gi, name: 'References' },
-    { pattern: /(?:^|\n)\s*(CONTACT|CONTACT\s*INFORMATION|PERSONAL\s*DETAILS?|PERSONAL\s*INFORMATION)\s*[:\-]?\s*\n/gi, name: 'Contact Information' },
+    { pattern: /(?:^|\n)\s*(SUMMARY|PROFESSIONAL\s*SUMMARY|OBJECTIVE|CAREER\s*OBJECTIVE|PROFILE)\s*[:-]?\s*\n/gi, name: 'Summary' },
+    { pattern: /(?:^|\n)\s*(EXPERIENCE|WORK\s*EXPERIENCE|PROFESSIONAL\s*EXPERIENCE|EMPLOYMENT\s*HISTORY|WORK\s*HISTORY)\s*[:-]?\s*\n/gi, name: 'Experience' },
+    { pattern: /(?:^|\n)\s*(EDUCATION|ACADEMIC\s*BACKGROUND|QUALIFICATIONS|ACADEMIC\s*QUALIFICATIONS)\s*[:-]?\s*\n/gi, name: 'Education' },
+    { pattern: /(?:^|\n)\s*(SKILLS|TECHNICAL\s*SKILLS|CORE\s*SKILLS|KEY\s*SKILLS|COMPETENCIES|CORE\s*COMPETENCIES)\s*[:-]?\s*\n/gi, name: 'Skills' },
+    { pattern: /(?:^|\n)\s*(PROJECTS|KEY\s*PROJECTS|PERSONAL\s*PROJECTS|ACADEMIC\s*PROJECTS)\s*[:-]?\s*\n/gi, name: 'Projects' },
+    { pattern: /(?:^|\n)\s*(CERTIFICATIONS?|LICENSES?|CREDENTIALS?|PROFESSIONAL\s*CERTIFICATIONS?)\s*[:-]?\s*\n/gi, name: 'Certifications' },
+    { pattern: /(?:^|\n)\s*(ACHIEVEMENTS?|ACCOMPLISHMENTS?|AWARDS?|HONORS?)\s*[:-]?\s*\n/gi, name: 'Achievements' },
+    { pattern: /(?:^|\n)\s*(LANGUAGES?|LANGUAGE\s*SKILLS?)\s*[:-]?\s*\n/gi, name: 'Languages' },
+    { pattern: /(?:^|\n)\s*(INTERESTS?|HOBBIES?|ACTIVITIES?|EXTRACURRICULAR)\s*[:-]?\s*\n/gi, name: 'Interests' },
+    { pattern: /(?:^|\n)\s*(REFERENCES?)\s*[:-]?\s*\n/gi, name: 'References' },
+    { pattern: /(?:^|\n)\s*(CONTACT|CONTACT\s*INFORMATION|PERSONAL\s*DETAILS?|PERSONAL\s*INFORMATION)\s*[:-]?\s*\n/gi, name: 'Contact Information' },
   ];
 
   const sections: { sectionName: string; content: string; startIndex: number }[] = [];
-  
+
   for (const { pattern, name } of sectionPatterns) {
     let match;
     const regex = new RegExp(pattern.source, pattern.flags);
@@ -62,7 +62,7 @@ function extractSectionsFromText(text: string): { sectionName: string; content: 
   while ((skillMatch = skillPatterns.exec(text)) !== null) {
     extractedSkills.push(skillMatch[1].trim());
   }
-  
+
   if (extractedSkills.length > 0 && !sections.find(s => s.sectionName === 'Skills')) {
     sections.push({
       sectionName: 'Skills',
@@ -77,12 +77,12 @@ function extractSectionsFromText(text: string): { sectionName: string; content: 
 // Extract skills from resume text
 function extractSkillsFromResume(text: string, sections: { sectionName: string; content: string }[]): string[] {
   const skills: Set<string> = new Set();
-  
+
   const skillsSection = sections.find(s => s.sectionName === 'Skills');
   if (skillsSection) {
     const skillItems = skillsSection.content.split(/[,;•|\n]/);
     skillItems.forEach(skill => {
-      const cleaned = skill.trim().replace(/[•\-\*]/g, '').trim();
+      const cleaned = skill.trim().replace(/[•*-]/g, '').trim();
       if (cleaned && cleaned.length > 1 && cleaned.length < 50) {
         skills.add(cleaned);
       }
@@ -122,8 +122,8 @@ serve(async (req) => {
     const { resumeText, openAIKey } = await req.json();
 
     if (!openAIKey) {
-      return new Response(JSON.stringify({ 
-        error: 'Please enter your OpenAI API key in the dashboard to use AI features.' 
+      return new Response(JSON.stringify({
+        error: 'Please enter your OpenAI API key in the dashboard to use AI features.'
       }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -131,8 +131,8 @@ serve(async (req) => {
     }
 
     if (!resumeText || resumeText.trim().length < 50) {
-      return new Response(JSON.stringify({ 
-        error: 'Resume text is required. Please paste your resume text to analyze.' 
+      return new Response(JSON.stringify({
+        error: 'Resume text is required. Please paste your resume text to analyze.'
       }), {
         status: 400,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -143,11 +143,11 @@ serve(async (req) => {
 
     const extractedSections = extractSectionsFromText(resumeText);
     const extractedSkills = extractSkillsFromResume(resumeText, extractedSections);
-    
+
     console.log('Extracted sections:', extractedSections.map(s => s.sectionName));
     console.log('Extracted skills:', extractedSkills);
 
-    const formattedSections = extractedSections.length > 0 
+    const formattedSections = extractedSections.length > 0
       ? extractedSections.map(s => `## ${s.sectionName}\n${s.content}`).join('\n\n')
       : resumeText;
 
@@ -226,14 +226,14 @@ Return your analysis as a JSON object with this structure:
     }
 
     const analysisText = data.choices[0].message.content;
-    
+
     let analysis;
     try {
-      const jsonMatch = analysisText.match(/```json\n?([\s\S]*?)\n?```/) || 
-                        analysisText.match(/```\n?([\s\S]*?)\n?```/);
+      const jsonMatch = analysisText.match(/```json\n?([\s\S]*?)\n?```/) ||
+        analysisText.match(/```\n?([\s\S]*?)\n?```/);
       const jsonStr = jsonMatch ? jsonMatch[1] : analysisText;
       analysis = JSON.parse(jsonStr.trim());
-      
+
       if (!analysis.extractedSkills) {
         analysis.extractedSkills = extractedSkills;
       }
