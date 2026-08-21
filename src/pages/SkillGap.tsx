@@ -128,7 +128,7 @@ const SkillGap = () => {
         });
       }
     } catch (error) {
-      console.error('Analysis error:', error);
+      console.error('Analysis error:');
       toast({
         title: 'Analysis failed',
         description: 'Failed to analyze skill gap. Please try again.',
@@ -155,7 +155,7 @@ const SkillGap = () => {
         <meta name="description" content="Identify skill gaps between your current abilities and target role requirements." />
       </Helmet>
 
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background px-2">
         {userProfile && <DashboardNavbar />}
         <div className={`container-custom py-8 ${userProfile ? 'pt-24' : ''}`}>
           <Link to={userProfile ? '/dashboard' : '/'} className="inline-flex items-center gap-2 text-primary hover:text-secondary transition-colors mb-8">

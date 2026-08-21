@@ -20,6 +20,7 @@ import DashboardNavbar from '@/components/DashboardNavbar';
 import TypewriterText from '@/components/dashboard/TypewriterText';
 import { supabase } from '@/integrations/supabase/client';
 import { Input } from '@/components/ui/input';
+import RetryState from '@/components/RetryState';
 
 interface DashboardStats {
   resumesCount: number;
@@ -84,6 +85,7 @@ const Dashboard = () => {
   });
 
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [statsError, setStatsError] = useState(false);
 
   useEffect(() => {
     if (!isLoading && !userProfile) {
@@ -101,12 +103,19 @@ const Dashboard = () => {
     if (!userProfile) return;
 
     try {
+
+      setStatsError(false);
+
       const [resumes, resources, jobs, chats] = await Promise.all([
         supabase.from('resumes').select('id', { count: 'exact' }).eq('user_profile_id', userProfile.id),
         supabase.from('resources').select('id', { count: 'exact' }).eq('user_profile_id', userProfile.id),
         supabase.from('jobs').select('id', { count: 'exact' }).eq('user_profile_id', userProfile.id),
         supabase.from('chat_history').select('id', { count: 'exact' }).eq('user_profile_id', userProfile.id),
       ]);
+
+      if (resumes.error || resources.error || jobs.error || chats.error) {
+        throw new Error('Failed to fetch dashboard statistics');
+      }
 
       setStats({
         resumesCount: resumes.count || 0,
@@ -115,7 +124,8 @@ const Dashboard = () => {
         chatsCount: chats.count || 0,
       });
     } catch (error) {
-      console.error('Error fetching stats:', error);
+      console.error('Error fetching stats:');
+      setStatsError(true);
     }
   };
 
@@ -202,31 +212,42 @@ const Dashboard = () => {
             </motion.div>
 
             {/* Stats Grid */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12"
-            >
-              {[
-                { label: 'Resumes', value: stats.resumesCount, icon: FileText },
-                { label: 'Resources', value: stats.resourcesCount, icon: BookOpen },
-                { label: 'Jobs Applied', value: stats.jobsCount, icon: Briefcase },
-                { label: 'Conversations', value: stats.chatsCount, icon: MessageSquare },
-              ].map((stat, index) => (
+            {statsError ? (
+              <div className="mb-12">
+                <RetryState
+                  onRetry={fetchStats}
+                  message="We couldn't load your dashboard statistics."
+                />
+              </div>
+            ) : (
+              <>
                 <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.4 + index * 0.1 }}
-                  className="glass-card p-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12"
                 >
-                  <stat.icon className="w-8 h-8 text-secondary mb-3" />
-                  <div className="text-3xl font-bold text-primary">{stat.value}</div>
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
+                  {[
+                    { label: 'Resumes', value: stats.resumesCount, icon: FileText },
+                    { label: 'Resources', value: stats.resourcesCount, icon: BookOpen },
+                    { label: 'Jobs Applied', value: stats.jobsCount, icon: Briefcase },
+                    { label: 'Conversations', value: stats.chatsCount, icon: MessageSquare },
+                  ].map((stat, index) => (
+                    <motion.div
+                      key={stat.label}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.4 + index * 0.1 }}
+                      className="glass-card p-6"
+                    >
+                      <stat.icon className="w-8 h-8 text-secondary mb-3" />
+                      <div className="text-3xl font-bold text-primary">{stat.value}</div>
+                      <div className="text-sm text-muted-foreground">{stat.label}</div>
+                    </motion.div>
+                  ))}
                 </motion.div>
-              ))}
-            </motion.div>
+              </>
+            )}
 
             {/* Quick Actions */}
             <motion.div

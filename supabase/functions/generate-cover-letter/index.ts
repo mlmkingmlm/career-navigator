@@ -23,7 +23,6 @@ serve(async (req) => {
       });
     }
 
-    console.log('Cover letter generation request:', { jobTitle, companyName });
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -72,7 +71,7 @@ Create a compelling cover letter that connects the candidate's experience to the
     const data = await response.json();
 
     if (data.error) {
-      console.error('OpenAI API error:', data.error);
+      console.error('OpenAI API error:');
       return new Response(JSON.stringify({ error: data.error.message }), {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -85,7 +84,7 @@ Create a compelling cover letter that connects the candidate's experience to the
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error('Error in generate-cover-letter function:', error);
+    console.error('Error in generate-cover-letter function:');
     return new Response(JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

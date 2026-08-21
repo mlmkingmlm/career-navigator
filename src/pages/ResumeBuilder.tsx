@@ -110,14 +110,14 @@ const ResumeBuilder = () => {
         } else if (section === 'certifications') {
           setResumeData(prev => ({ ...prev, certifications: data.content }));
         }
-        
+
         toast({
           title: 'Content generated!',
           description: 'AI has generated content for your resume section.',
         });
       }
     } catch (error) {
-      console.error('Generation error:', error);
+      console.error('Generation error:');
       toast({
         title: 'Generation failed',
         description: 'Failed to generate content. Please try again.',
@@ -257,11 +257,11 @@ const ResumeBuilder = () => {
           <h1>${resumeData.personalInfo.fullName || 'Your Name'}</h1>
           <div class="contact">
             ${[
-              resumeData.personalInfo.email,
-              resumeData.personalInfo.phone,
-              resumeData.personalInfo.location,
-              resumeData.personalInfo.linkedin
-            ].filter(Boolean).join(' | ')}
+          resumeData.personalInfo.email,
+          resumeData.personalInfo.phone,
+          resumeData.personalInfo.location,
+          resumeData.personalInfo.linkedin
+        ].filter(Boolean).join(' | ')}
           </div>
 
           ${resumeData.summary ? `
@@ -343,24 +343,37 @@ const ResumeBuilder = () => {
         <meta name="description" content="Build an ATS-optimized resume with AI assistance. Step-by-step builder with live preview." />
       </Helmet>
 
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background px-2">
         {userProfile && <DashboardNavbar />}
         <div className={`container-custom py-8 ${userProfile ? 'pt-24' : ''}`}>
-          <div className="flex items-center justify-between mb-8">
-            <Link to={userProfile ? '/dashboard' : '/'} className="inline-flex items-center gap-2 text-primary hover:text-secondary transition-colors">
-              <ArrowLeft className="w-4 h-4" />
+          <div className="flex flex-col gap-4 mb-8 sm:flex-row sm:items-center sm:justify-between">
+            <Link
+              to={userProfile ? '/dashboard' : '/'}
+              className="inline-flex items-center gap-2 text-primary hover:text-secondary transition-colors text-sm sm:text-base"
+            >
+              <ArrowLeft className="w-4 h-4 flex-shrink-0" />
               {userProfile ? 'Back to Dashboard' : 'Back to Home'}
             </Link>
-            <div className="flex items-center gap-2">
+
+            <div className="flex items-center gap-2 w-full sm:w-auto">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setShowPreview(!showPreview)}
                 className="md:hidden"
+                aria-label={showPreview ? 'Hide preview' : 'Show preview'}
               >
-                {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                {showPreview ? (
+                  <EyeOff className="w-4 h-4" />
+                ) : (
+                  <Eye className="w-4 h-4" />
+                )}
               </Button>
-              <Button onClick={downloadResume} className="btn-primary">
+
+              <Button
+                onClick={downloadResume}
+                className="btn-primary flex-1 sm:flex-none"
+              >
                 <Download className="w-4 h-4 mr-2" />
                 Download PDF
               </Button>
@@ -371,20 +384,41 @@ const ResumeBuilder = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">AI Resume Builder</h1>
-            <p className="text-muted-foreground mb-8">Build an ATS-optimized resume with AI assistance</p>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-2">
+              AI Resume Builder
+            </h1>
+            <p className="text-sm sm:text-base text-muted-foreground mb-6 sm:mb-8">
+              Build an ATS-optimized resume with AI assistance
+            </p>
 
             <div className="grid lg:grid-cols-2 gap-8">
               {/* Editor Panel */}
               <Card className="glass-card p-6 overflow-hidden">
                 <Tabs value={activeTab} onValueChange={setActiveTab}>
-                  <TabsList className="grid grid-cols-3 md:grid-cols-6 mb-6">
-                    <TabsTrigger value="personal">Personal</TabsTrigger>
-                    <TabsTrigger value="summary">Summary</TabsTrigger>
-                    <TabsTrigger value="experience">Experience</TabsTrigger>
-                    <TabsTrigger value="education">Education</TabsTrigger>
-                    <TabsTrigger value="skills">Skills</TabsTrigger>
-                    <TabsTrigger value="projects">Projects</TabsTrigger>
+                  <TabsList className="w-full justify-start overflow-x-auto flex-nowrap mb-6 h-auto p-1">
+                    <TabsTrigger value="personal" className="flex-shrink-0">
+                      Personal
+                    </TabsTrigger>
+
+                    <TabsTrigger value="summary" className="flex-shrink-0">
+                      Summary
+                    </TabsTrigger>
+
+                    <TabsTrigger value="experience" className="flex-shrink-0">
+                      Experience
+                    </TabsTrigger>
+
+                    <TabsTrigger value="education" className="flex-shrink-0">
+                      Education
+                    </TabsTrigger>
+
+                    <TabsTrigger value="skills" className="flex-shrink-0">
+                      Skills
+                    </TabsTrigger>
+
+                    <TabsTrigger value="projects" className="flex-shrink-0">
+                      Projects
+                    </TabsTrigger>
                   </TabsList>
 
                   <TabsContent value="personal" className="space-y-4">
@@ -672,7 +706,7 @@ const ResumeBuilder = () => {
                     <Eye className="w-5 h-5" />
                     Live Preview
                   </h3>
-                  <div 
+                  <div
                     className="bg-white border border-border rounded-lg p-6 min-h-[600px] shadow-inner overflow-auto"
                     style={{ fontFamily: "'Times New Roman', Times, serif" }}
                   >

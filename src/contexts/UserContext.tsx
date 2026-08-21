@@ -52,7 +52,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         localStorage.removeItem('user_profile_id');
       }
     } catch (error) {
-      console.error('Error fetching user profile:', error);
+      console.error('Error fetching user profile:');
     } finally {
       setIsLoading(false);
     }

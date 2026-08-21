@@ -55,7 +55,7 @@ const ResourcesList = () => {
       if (error) throw error;
       setResources(data || []);
     } catch (error) {
-      console.error('Error fetching resources:', error);
+      console.error('Error fetching resources:');
     } finally {
       setLoading(false);
     }
@@ -107,14 +107,25 @@ const ResourcesList = () => {
         />
         <main className={`ml-0 ${isCollapsed ? 'lg:ml-[100px]' : 'lg:ml-[280px]'} transition-all duration-300 pt-24 pb-12`}>
           <div className="max-w-6xl mx-auto px-6 py-8">
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h1 className="text-2xl font-bold text-primary">Learning Resources</h1>
-                <p className="text-muted-foreground">Resources you've saved for learning</p>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-8">
+              <div className="min-w-0">
+                <h1 className="text-2xl font-bold text-primary">
+                  Learning Resources
+                </h1>
+
+                <p className="text-muted-foreground">
+                  Resources you've saved for learning
+                </p>
               </div>
-              <Link to="/resources">
-                <Button className="btn-primary">Explore More</Button>
-              </Link>
+
+              <Button
+                asChild
+                className="btn-primary w-full sm:w-auto shrink-0"
+              >
+                <Link to="/resume-builder">
+                  Create Resume
+                </Link>
+              </Button>
             </div>
 
             {resources.length === 0 ? (
@@ -126,9 +137,9 @@ const ResourcesList = () => {
                 <BookOpen className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-lg font-semibold text-primary mb-2">No resources saved</h3>
                 <p className="text-muted-foreground mb-6">Get personalized learning recommendations</p>
-                <Link to="/resources">
-                  <Button className="btn-primary">Find Resources</Button>
-                </Link>
+                <Button asChild className="btn-primary">
+                  <Link to="/resources">Find Resources</Link>
+                </Button>
               </motion.div>
             ) : (
               <div className="space-y-8">

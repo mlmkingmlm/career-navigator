@@ -12,7 +12,7 @@ const CTASection = () => {
   return (
     <section id="cta" className="section-padding relative overflow-hidden">
       <WaveBackground />
-      
+
       <div className="container-custom relative z-10" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -50,7 +50,7 @@ const CTASection = () => {
             transition={{ delay: 0.4, duration: 0.6 }}
             className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8"
           >
-            Join thousands of job seekers who have transformed their career prospects with AI-powered 
+            Join thousands of job seekers who have transformed their career prospects with AI-powered
             resume optimization, skill gap analysis, and intelligent job matching.
           </motion.p>
 
@@ -61,7 +61,11 @@ const CTASection = () => {
             transition={{ delay: 0.5, duration: 0.6 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+            <motion.div
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              tabIndex={-1}
+            >
               <Link
                 to="/resume-screening"
                 className="btn-primary inline-flex items-center justify-center gap-2 text-lg px-8 py-4"
@@ -71,8 +75,12 @@ const CTASection = () => {
                 <ArrowRight className="w-5 h-5" />
               </Link>
             </motion.div>
-            
-            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+
+            <motion.div
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              tabIndex={-1}
+            >
               <Link
                 to="/resume-builder"
                 className="btn-secondary inline-flex items-center justify-center gap-2 text-lg px-8 py-4"

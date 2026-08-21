@@ -144,8 +144,7 @@ serve(async (req) => {
     const extractedSections = extractSectionsFromText(resumeText);
     const extractedSkills = extractSkillsFromResume(resumeText, extractedSections);
 
-    console.log('Extracted sections:', extractedSections.map(s => s.sectionName));
-    console.log('Extracted skills:', extractedSkills);
+    
 
     const formattedSections = extractedSections.length > 0
       ? extractedSections.map(s => `## ${s.sectionName}\n${s.content}`).join('\n\n')
@@ -218,7 +217,7 @@ Return your analysis as a JSON object with this structure:
     console.log('OpenAI response received');
 
     if (data.error) {
-      console.error('OpenAI API error:', data.error);
+      console.error('OpenAI API error:');
       return new Response(JSON.stringify({ error: data.error.message }), {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -238,7 +237,7 @@ Return your analysis as a JSON object with this structure:
         analysis.extractedSkills = extractedSkills;
       }
     } catch (e) {
-      console.error('Failed to parse analysis JSON:', e);
+      console.error('Failed to parse analysis JSON:');
       analysis = { raw: analysisText, extractedSkills };
     }
 
@@ -246,7 +245,7 @@ Return your analysis as a JSON object with this structure:
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error('Error in analyze-resume function:', error);
+    console.error('Error in analyze-resume function:');
     return new Response(JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

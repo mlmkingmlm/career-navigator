@@ -23,7 +23,6 @@ serve(async (req) => {
       });
     }
 
-    console.log('Skill gap analysis request:', { currentSkills, targetRole });
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -106,7 +105,7 @@ Provide a comprehensive skill gap analysis with a personalized learning roadmap.
     const data = await response.json();
 
     if (data.error) {
-      console.error('OpenAI API error:', data.error);
+      console.error('OpenAI API error:');
       return new Response(JSON.stringify({ error: data.error.message }), {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -122,7 +121,7 @@ Provide a comprehensive skill gap analysis with a personalized learning roadmap.
       const jsonStr = jsonMatch ? jsonMatch[1] : analysisText;
       analysis = JSON.parse(jsonStr.trim());
     } catch (e) {
-      console.error('Failed to parse analysis JSON:', e);
+      console.error('Failed to parse analysis JSON:');
       analysis = { raw: analysisText };
     }
 
@@ -130,7 +129,7 @@ Provide a comprehensive skill gap analysis with a personalized learning roadmap.
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error('Error in skill-gap-analysis function:', error);
+    console.error('Error in skill-gap-analysis function:');
     return new Response(JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

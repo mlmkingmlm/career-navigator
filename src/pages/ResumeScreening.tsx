@@ -178,7 +178,7 @@ const ResumeScreening = () => {
         });
       }
     } catch (error) {
-      console.error('Analysis error:', error);
+      console.error('Analysis error:');
       toast({
         title: 'Analysis failed',
         description: 'Failed to analyze resume. Please try again.',
@@ -200,7 +200,7 @@ const ResumeScreening = () => {
     }
 
     const currentSkills = analysis?.extractedSkills || analysis?.keywords?.found || [];
-    
+
     if (currentSkills.length === 0) {
       toast({
         title: 'No skills found',
@@ -235,7 +235,7 @@ const ResumeScreening = () => {
         });
       }
     } catch (error) {
-      console.error('Skill gap analysis error:', error);
+      console.error('Skill gap analysis error:');
       toast({
         title: 'Analysis failed',
         description: 'Failed to analyze skill gaps. Please try again.',
@@ -295,15 +295,23 @@ const ResumeScreening = () => {
                 <div className="space-y-6">
                   {/* Drag and Drop Area */}
                   <div
+                    role='button'
+                    tabIndex={0}
+                    aria-label="Upload resume file"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        fileInputRef.current?.click();
+                      }
+                    }}
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
                     onClick={() => fileInputRef.current?.click()}
-                    className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-200 ${
-                      isDragging 
-                        ? 'border-primary bg-primary/5' 
+                    className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-200 ${isDragging
+                        ? 'border-primary bg-primary/5'
                         : 'border-border hover:border-primary/50 hover:bg-muted/30'
-                    }`}
+                      }`}
                   >
                     <input
                       ref={fileInputRef}
@@ -313,9 +321,8 @@ const ResumeScreening = () => {
                       className="hidden"
                     />
                     <div className="flex flex-col items-center gap-3">
-                      <div className={`w-16 h-16 rounded-full flex items-center justify-center transition-colors ${
-                        isDragging ? 'bg-primary/20' : isParsing ? 'bg-secondary/20' : 'bg-muted'
-                      }`}>
+                      <div className={`w-16 h-16 rounded-full flex items-center justify-center transition-colors ${isDragging ? 'bg-primary/20' : isParsing ? 'bg-secondary/20' : 'bg-muted'
+                        }`}>
                         {isParsing ? (
                           <Loader2 className="w-8 h-8 text-secondary animate-spin" />
                         ) : (
@@ -645,7 +652,7 @@ const ResumeScreening = () => {
                           </div>
                         </div>
                         <Progress value={section.score * 10} className={`h-2 mb-3 ${getScoreBg(section.score * 10)}`} />
-                        
+
                         {section.content && (
                           <p className="text-sm text-muted-foreground mb-3">{section.content}</p>
                         )}

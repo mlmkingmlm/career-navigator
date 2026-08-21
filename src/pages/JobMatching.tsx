@@ -165,7 +165,7 @@ const JobMatching = () => {
         });
       }
     } catch (error) {
-      console.error('Generation error:', error);
+      console.error('Generation error:');
       toast({
         title: 'Generation failed',
         description: 'Failed to generate cover letter. Please try again.',
@@ -189,7 +189,7 @@ const JobMatching = () => {
         <meta name="description" content="Find jobs that match your skills and experience with AI-powered matching." />
       </Helmet>
 
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background px-2">
         {userProfile && <DashboardNavbar />}
         <div className={`container-custom py-8 ${userProfile ? 'pt-24' : ''}`}>
           <Link to={userProfile ? '/dashboard' : '/'} className="inline-flex items-center gap-2 text-primary hover:text-secondary transition-colors mb-8">
@@ -201,26 +201,41 @@ const JobMatching = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
-              <div>
-                <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">Job Matching</h1>
-                <p className="text-muted-foreground">AI-matched jobs based on your skills and experience</p>
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-8">
+              <div className="min-w-0">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-2">
+                  Job Matching
+                </h1>
+
+                <p className="text-sm sm:text-base text-muted-foreground">
+                  AI-matched jobs based on your skills and experience
+                </p>
               </div>
-              <Badge variant="secondary" className="mt-4 md:mt-0">
+
+              <Badge
+                variant="secondary"
+                className="self-start md:self-auto shrink-0"
+              >
                 {placeholderJobs.length} jobs found
               </Badge>
             </div>
 
             {/* Search */}
             <Card className="glass-card p-4 mb-6">
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <Input
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search jobs by title, company, or location..."
-                  className="flex-1"
+                  className="w-full sm:flex-1"
                 />
-                <Button variant="secondary">Search</Button>
+
+                <Button
+                  variant="secondary"
+                  className="w-full sm:w-auto shrink-0"
+                >
+                  Search
+                </Button>
               </div>
             </Card>
 
@@ -301,7 +316,7 @@ const JobMatching = () => {
                           </p>
                           <Progress value={job.matchScore} className="w-24 h-2 mt-1" />
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex flex-col sm:flex-row gap-2 w-full lg:w-auto">
                           <Dialog open={showCoverLetterDialog && selectedJob?.id === job.id} onOpenChange={(open) => {
                             setShowCoverLetterDialog(open);
                             if (open) setSelectedJob(job);
