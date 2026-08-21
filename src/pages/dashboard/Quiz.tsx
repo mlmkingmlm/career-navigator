@@ -310,13 +310,15 @@ const Quiz = () => {
                                                 const isSelected = selectedAnswer === option;
 
                                                 return (
-                                                    <label
-                                                        key={option}
-                                                        className={`group flex items-center gap-4 p-4 md:p-5 rounded-xl border cursor-pointer transition-all duration-200 ${isSelected
-                                                                ? "border-secondary bg-secondary/10 shadow-sm"
-                                                                : "border-border hover:border-secondary/50 hover:bg-muted/30"
-                                                            }`}
-                                                    >
+                                                   <label
+  key={option}
+  className={`group flex items-center gap-4 p-4 md:p-5 rounded-xl border cursor-pointer transition-all duration-200 ${
+    isSelected
+      ? "border-secondary bg-secondary/10 shadow-sm"
+      : "border-border hover:border-secondary/50 hover:bg-muted/30"
+  } focus-within:ring-2 focus-within:ring-secondary focus-within:ring-offset-2`}
+>
+                                                    
                                                         <input
                                                             type="radio"
                                                             name={`question-${question.id}`}
