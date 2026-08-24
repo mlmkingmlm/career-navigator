@@ -33,7 +33,6 @@ const Features = lazy(() => import("./pages/Features"));
 const Journey = lazy(() => import("./pages/Journey"));
 const About = lazy(() => import("./pages/About"));
 
-const Quiz = lazy(() => import("./pages/dashboard/Quiz"))
 
 
 
@@ -71,7 +70,6 @@ const App = () => (
                 <Route path="/skill-gap" element={<SkillGap />} />
                 <Route path="/jobs" element={<JobMatching />} />
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/dashboard/quiz" element={<Quiz />} />
                 <Route path="/dashboard/resumes/created" element={<ResumesCreated />} />
                 <Route path="/dashboard/resumes/uploaded" element={<ResumesUploaded />} />
                 <Route path="/dashboard/resources" element={<ResourcesList />} />

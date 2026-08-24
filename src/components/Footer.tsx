@@ -10,7 +10,7 @@ const navLinks = [
 
 const Footer = () => {
   return (
-    <footer className="bg-primary text-primary-foreground py-12">
+    <footer className="bg-primary text-primary-foreground py-12 px-2">
       <div className="container-custom">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
@@ -49,22 +49,6 @@ const Footer = () => {
           {/* Connect */}
           <div>
             <h4 className="font-semibold mb-4">Connect</h4>
-            {/* <div className="flex gap-4">
-              {[
-                { icon: Linkedin, href: '#' },
-                { icon: Twitter, href: '#' },
-                { icon: Github, href: '#' },
-                { icon: Mail, href: '#' },
-              ].map((social, index) => (
-                <a
-                  key={index}
-                  href={social.href}
-                  className="w-10 h-10 rounded-lg bg-primary-foreground/10 flex items-center justify-center hover:bg-secondary hover:text-primary transition-all"
-                >
-                  <social.icon className="w-5 h-5" />
-                </a>
-              ))}
-            </div> */}
           </div>
         </div>
 

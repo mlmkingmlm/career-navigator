@@ -54,7 +54,7 @@ const ProblemSection = () => {
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-cyan/5 rounded-full blur-3xl" />
       </div>
 
-      <div className="container-custom relative z-10" ref={ref}>
+      <div className="container-custom relative z-10 pt-5 md:pt-0" ref={ref}>
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}

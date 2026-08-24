@@ -8,7 +8,6 @@ import {
   BookOpen,
   Briefcase,
   Sparkles,
-  ArrowDown
 } from 'lucide-react';
 
 const journeySteps = [
@@ -68,7 +67,7 @@ const CareerJourneySection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="text-center max-w-3xl mx-auto mb-16 pt-5 md:pt-0"
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-secondary/10 text-secondary text-sm font-medium mb-4">
             AI Architecture
