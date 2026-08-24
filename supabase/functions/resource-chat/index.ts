@@ -23,7 +23,6 @@ serve(async (req) => {
       });
     }
 
-    console.log('Resource chat request:', { message, skills });
 
     const messages = [
       {
@@ -80,7 +79,7 @@ When recommending resources:
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error('Error in resource-chat function:', error);
+    console.error('Error in resource-chat function:');
     return new Response(JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

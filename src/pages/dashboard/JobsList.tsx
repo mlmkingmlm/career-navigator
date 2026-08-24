@@ -35,7 +35,7 @@ const JobsList = () => {
   const [loading, setLoading] = useState(true);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const { toast } = useToast();
-    const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const JobsList = () => {
 
   const fetchJobs = async () => {
     if (!userProfile) return;
-    
+
     try {
       const { data, error } = await supabase
         .from('jobs')
@@ -63,7 +63,7 @@ const JobsList = () => {
       if (error) throw error;
       setJobs(data || []);
     } catch (error) {
-      console.error('Error fetching jobs:', error);
+      console.error('Error fetching jobs:');
     } finally {
       setLoading(false);
     }
@@ -109,11 +109,11 @@ const JobsList = () => {
       </Helmet>
 
       <div className="min-h-screen bg-background">
-<DashboardNavbar/>
+        <DashboardNavbar />
         <DashboardSidebar
           isCollapsed={isCollapsed}
           setIsCollapsed={setIsCollapsed}
-        />        
+        />
         <main className={`ml-0 ${isCollapsed ? 'lg:ml-[100px]' : 'lg:ml-[280px]'} transition-all duration-300 pt-24 pb-12`}>
           <div className="max-w-6xl mx-auto px-6 py-8">
             <div className="flex items-center justify-between mb-8">
@@ -121,9 +121,9 @@ const JobsList = () => {
                 <h1 className="text-2xl font-bold text-primary">Applied Jobs</h1>
                 <p className="text-muted-foreground">Track your job applications</p>
               </div>
-              <Link to="/jobs">
-                <Button className="btn-primary">Find Jobs</Button>
-              </Link>
+              <Button asChild className="btn-primary">
+                <Link to="/jobs">Find Jobs</Link>
+              </Button>
             </div>
 
             {jobs.length === 0 ? (
@@ -135,9 +135,9 @@ const JobsList = () => {
                 <Briefcase className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-lg font-semibold text-primary mb-2">No applications yet</h3>
                 <p className="text-muted-foreground mb-6">Start applying to jobs matched for you</p>
-                <Link to="/jobs">
-                  <Button className="btn-primary">Browse Jobs</Button>
-                </Link>
+                <Button asChild className="btn-primary">
+                  <Link to="/jobs">Browse Jobs</Link>
+                </Button>
               </motion.div>
             ) : (
               <div className="space-y-4">

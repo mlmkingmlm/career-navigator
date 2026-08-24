@@ -23,7 +23,6 @@ serve(async (req) => {
       });
     }
 
-    console.log(`Generating resume section: ${section}`);
 
     const sectionPrompts: Record<string, string> = {
       summary: `Write a professional summary/objective for a resume. The summary should be 2-3 sentences, highlighting key strengths and career goals. Make it ATS-friendly with relevant keywords.`,
@@ -70,7 +69,7 @@ Important guidelines:
     console.log('OpenAI response received for section generation');
 
     if (data.error) {
-      console.error('OpenAI API error:', data.error);
+      console.error('OpenAI API error:');
       return new Response(JSON.stringify({ error: data.error.message }), {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -83,7 +82,7 @@ Important guidelines:
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error('Error in generate-resume-section function:', error);
+    console.error('Error in generate-resume-section function:');
     return new Response(JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

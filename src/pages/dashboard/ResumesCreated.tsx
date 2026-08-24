@@ -53,7 +53,7 @@ const ResumesCreated = () => {
       if (error) throw error;
       setResumes(data || []);
     } catch (error) {
-      console.error('Error fetching resumes:', error);
+      console.error('Error fetching resumes:');
     } finally {
       setLoading(false);
     }
@@ -89,7 +89,7 @@ const ResumesCreated = () => {
       </Helmet>
 
       <div className="min-h-screen bg-background">
-        <DashboardNavbar/>
+        <DashboardNavbar />
         <DashboardSidebar
           isCollapsed={isCollapsed}
           setIsCollapsed={setIsCollapsed}
@@ -97,17 +97,26 @@ const ResumesCreated = () => {
 
         <main className={`ml-0 ${isCollapsed ? 'lg:ml-[100px]' : 'lg:ml-[280px]'} transition-all duration-300 pt-24 pb-12`}>
           <div className="max-w-6xl mx-auto px-6 py-8">
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h1 className="text-2xl font-bold text-primary">Created Resumes</h1>
-                <p className="text-muted-foreground">Resumes you've built with our AI</p>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-8">
+              <div className="min-w-0">
+                <h1 className="text-2xl font-bold text-primary">
+                  Created Resumes
+                </h1>
+
+                <p className="text-muted-foreground">
+                  Resumes you've built with our AI
+                </p>
               </div>
-              <Link to="/resume-builder">
-                <Button className="btn-primary flex items-center gap-2">
+
+              <Button
+                asChild
+                className="btn-primary flex items-center gap-2 w-full sm:w-auto shrink-0"
+              >
+                <Link to="/resume-builder">
                   <Plus className="w-4 h-4" />
                   Create New
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
 
             {resumes.length === 0 ? (
@@ -119,9 +128,11 @@ const ResumesCreated = () => {
                 <FileText className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-lg font-semibold text-primary mb-2">No resumes yet</h3>
                 <p className="text-muted-foreground mb-6">Start building your first resume with AI assistance</p>
-                <Link to="/resume-builder">
-                  <Button className="btn-primary">Create Resume</Button>
-                </Link>
+                <Button asChild className="btn-primary">
+                  <Link to="/resume-builder">
+                    Create Resume
+                  </Link>
+                </Button>
               </motion.div>
             ) : (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

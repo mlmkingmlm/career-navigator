@@ -49,7 +49,7 @@ const GetStartedModal = ({ isOpen, onClose }: GetStartedModalProps) => {
       onClose();
       navigate('/dashboard');
     } catch (error) {
-      console.error('Error creating profile:', error);
+      console.error('Error creating profile:');
       toast({
         title: "Error",
         description: "Failed to create profile. Please try again.",

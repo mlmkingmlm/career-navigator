@@ -54,7 +54,7 @@ const ChatHistoryList = () => {
       if (error) throw error;
       setChats(data || []);
     } catch (error) {
-      console.error('Error fetching chats:', error);
+      console.error('Error fetching chats:');
     } finally {
       setLoading(false);
     }
@@ -102,9 +102,9 @@ const ChatHistoryList = () => {
                 <h1 className="text-2xl font-bold text-primary">Chat History</h1>
                 <p className="text-muted-foreground">Your AI career conversations</p>
               </div>
-              <Link to="/resources">
-                <Button className="btn-primary">New Chat</Button>
-              </Link>
+              <Button asChild className="btn-primary">
+                <Link to="/resources">New Chat</Link>
+              </Button>
             </div>
 
             {chats.length === 0 ? (
@@ -116,9 +116,9 @@ const ChatHistoryList = () => {
                 <MessageSquare className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-lg font-semibold text-primary mb-2">No conversations yet</h3>
                 <p className="text-muted-foreground mb-6">Start chatting with our AI career advisor</p>
-                <Link to="/resources">
-                  <Button className="btn-primary">Start Chat</Button>
-                </Link>
+                <Button asChild className="btn-primary">
+                  <Link to="/resources">Start Chat</Link>
+                </Button>
               </motion.div>
             ) : (
               <div className="space-y-3">

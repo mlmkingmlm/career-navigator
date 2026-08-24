@@ -88,7 +88,7 @@ const ResourceChat = () => {
         setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
       }
     } catch (error) {
-      console.error('Chat error:', error);
+      console.error('Chat error:');
       toast({
         title: 'Failed to get response',
         description: 'Please try again.',

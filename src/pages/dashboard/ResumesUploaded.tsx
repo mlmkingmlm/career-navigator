@@ -54,7 +54,7 @@ const ResumesUploaded = () => {
       if (error) throw error;
       setResumes(data || []);
     } catch (error) {
-      console.error('Error fetching resumes:', error);
+      console.error('Error fetching resumes:');
     } finally {
       setLoading(false);
     }
@@ -97,7 +97,7 @@ const ResumesUploaded = () => {
       toast({ title: 'Resume uploaded successfully!' });
       fetchResumes();
     } catch (error) {
-      console.error('Upload error:', error);
+      console.error('Upload error:');
       toast({ title: 'Failed to upload resume', variant: 'destructive' });
     } finally {
       setUploading(false);
@@ -144,12 +144,18 @@ const ResumesUploaded = () => {
         />
         <main className={`ml-0 ${isCollapsed ? 'lg:ml-[100px]' : 'lg:ml-[280px]'} transition-all duration-300 pt-24 pb-12`}>
           <div className="max-w-6xl mx-auto px-6 py-8">
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h1 className="text-2xl font-bold text-primary">Uploaded Resumes</h1>
-                <p className="text-muted-foreground">Your uploaded PDF resumes</p>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-8">
+              <div className="min-w-0">
+                <h1 className="text-2xl font-bold text-primary">
+                  Uploaded Resumes
+                </h1>
+
+                <p className="text-muted-foreground">
+                  Your uploaded PDF resumes
+                </p>
               </div>
-              <div>
+
+              <div className="w-full sm:w-auto shrink-0">
                 <input
                   type="file"
                   ref={fileInputRef}
@@ -157,10 +163,11 @@ const ResumesUploaded = () => {
                   accept=".pdf"
                   className="hidden"
                 />
+
                 <Button
                   onClick={() => fileInputRef.current?.click()}
                   disabled={uploading}
-                  className="btn-primary flex items-center gap-2"
+                  className="btn-primary flex items-center justify-center gap-2 w-full sm:w-auto"
                 >
                   <Upload className="w-4 h-4" />
                   {uploading ? 'Uploading...' : 'Upload PDF'}
