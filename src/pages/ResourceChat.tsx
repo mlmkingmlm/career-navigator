@@ -115,7 +115,7 @@ const ResourceChat = () => {
         <meta name="description" content="Get personalized learning resource recommendations based on your skills and career goals." />
       </Helmet>
 
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background px-2">
         {userProfile && <DashboardNavbar />}
         <div className={`container-custom py-8 ${userProfile ? 'pt-24' : ''}`}>
           <Link to={userProfile ? '/dashboard' : '/'} className="inline-flex items-center gap-2 text-primary hover:text-secondary transition-colors mb-8">

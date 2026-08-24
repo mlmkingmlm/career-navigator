@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X, Sparkles } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
@@ -16,40 +16,9 @@ const LandingNavbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('hero');
   const { userProfile } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     setIsScrolled(window.scrollY > 20);
-
-  //     // Update active section based on scroll position
-  //     const sections = ['hero', 'features', 'journey', 'about'];
-  //     for (const section of sections.reverse()) {
-  //       const element = document.getElementById(section);
-  //       if (element) {
-  //         const rect = element.getBoundingClientRect();
-  //         if (rect.top <= 100) {
-  //           setActiveSection(section);
-  //           break;
-  //         }
-  //       }
-  //     }
-  //   };
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => window.removeEventListener('scroll', handleScroll);
-  // }, []);
-
-  // const scrollToSection = (href: string) => {
-  //   const id = href.replace('#', '');
-  //   const element = document.getElementById(id);
-  //   if (element) {
-  //     element.scrollIntoView({ behavior: 'smooth' });
-  //   }
-  //   setIsMobileMenuOpen(false);
-  // };
 
   const handleGetStarted = () => {
     if (userProfile) {
@@ -93,8 +62,8 @@ const LandingNavbar = () => {
                   {link.name}
                   <span
                     className={`absolute -bottom-1 left-0 h-0.5 bg-secondary transition-all duration-300 ${location.pathname === link.route
-                        ? 'w-full'
-                        : 'w-0 group-hover:w-full'
+                      ? 'w-full'
+                      : 'w-0 group-hover:w-full'
                       }`}
                   />
                 </Link>
@@ -127,11 +96,12 @@ const LandingNavbar = () => {
             exit={{ opacity: 0, y: -20 }}
             className="md:hidden glass-navbar border-t border-border/30"
           >
-            <div className="container-custom py-6 flex flex-col gap-4">
+            <div className="container-custom py-6 flex flex-col gap-4 px-2">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.route}
+                  onClick={() => setIsMobileMenuOpen(false)}
                   className={`font-medium py-2 transition-colors text-left`}
                 >
                   {link.name}

@@ -74,6 +74,8 @@ const featureCards = [
   },
 ];
 
+
+
 const Dashboard = () => {
   const { userProfile, isLoading, openAIKey, setOpenAIKey } = useUser();
   const navigate = useNavigate();

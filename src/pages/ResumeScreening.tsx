@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { Upload, FileText, AlertCircle, CheckCircle2, XCircle, Loader2, ArrowLeft, Lightbulb, File, Target, ChevronRight } from 'lucide-react';
+import { Upload, FileText, CheckCircle2, XCircle, Loader2, ArrowLeft, Lightbulb, File, Target, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -274,7 +274,7 @@ const ResumeScreening = () => {
         <meta name="description" content="Get instant AI-powered resume analysis with ATS scoring and improvement suggestions." />
       </Helmet>
 
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background px-2">
         {userProfile && <DashboardNavbar />}
         <div className={`container-custom py-8 ${userProfile ? 'pt-24' : ''}`}>
           <Link to={userProfile ? '/dashboard' : '/'} className="inline-flex items-center gap-2 text-primary hover:text-secondary transition-colors mb-8">

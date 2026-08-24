@@ -14,7 +14,11 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
 import DashboardNavbar from '@/components/DashboardNavbar';
+import ApplicationForm from '@/components/ApplicationForm';
 import { useUser } from '@/contexts/UserContext';
+import JobQuiz from '@/components/quiz/JobQuiz';
+import QuizResult from '@/components/quiz/QuizResult';
+import { quizQuestions } from '@/data/quizQuestions';
 
 interface Job {
   id: string;
@@ -27,6 +31,14 @@ interface Job {
   matchScore: number;
   skills: string[];
   description: string;
+}
+
+interface ApplicationData {
+  name: string;
+  email: string;
+  phone: string;
+  resume: File | null;
+  role: string;
 }
 
 // Placeholder jobs data
@@ -103,6 +115,12 @@ const JobMatching = () => {
   const [resumeData, setResumeData] = useState('');
   const { toast } = useToast();
   const { userProfile, openAIKey } = useUser();
+  const [showApplicationForm, setShowApplicationForm] = useState(false);
+  const [applicationData, setApplicationData] =
+    useState<ApplicationData | null>(null);
+
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [quizScore, setQuizScore] = useState<number | null>(null);
 
   const filteredJobs = placeholderJobs.filter(job =>
     job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -182,6 +200,66 @@ const JobMatching = () => {
     return 'text-orange-600';
   };
 
+  const handleCloseApplication = () => {
+    setShowApplicationForm(false);
+    setShowQuiz(false);
+    setSelectedJob(null);
+    setQuizScore(null);
+    setApplicationData(null);
+  };
+
+  const handleSubmitApplication = async () => {
+    if (!selectedJob) {
+      toast({
+        title: 'No job selected',
+        description: 'Please select a job before submitting.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (!userProfile) {
+      toast({
+        title: 'Profile required',
+        description: 'Please create your profile before applying.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('jobs')
+        .insert({
+          user_profile_id: userProfile.id,
+          job_title: selectedJob.title,
+          company: selectedJob.company,
+          description: selectedJob.description,
+          cover_letter: coverLetter || null,
+          status: 'applied',
+        });
+
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: 'Application submitted!',
+        description: `Your application for ${selectedJob.title} has been submitted successfully.`,
+      });
+
+      handleCloseApplication();
+    } catch (error) {
+      console.error('Application submission error:', error);
+
+      toast({
+        title: 'Submission failed',
+        description: 'Unable to submit your application. Please try again.',
+        variant: 'destructive',
+      });
+    }
+  };
+
   return (
     <>
       <Helmet>
@@ -246,6 +324,69 @@ const JobMatching = () => {
                 In a full implementation, jobs would be fetched from job APIs and matched against your resume using AI.
               </p>
             </Card>
+
+            <Dialog
+              open={showApplicationForm}
+              onOpenChange={(open) => {
+                if (!open) {
+                  handleCloseApplication();
+                } else {
+                  setShowApplicationForm(true);
+                }
+              }}
+            >
+              <DialogContent
+                className="
+      w-[calc(100%-2rem)]
+    max-w-2xl
+    h-[90vh]
+    max-h-[90vh]
+    p-0
+    overflow-hidden
+    rounded-2xl
+    border
+    border-border/60
+    shadow-2xl
+    "
+              >
+                <div className="h-full overflow-y-auto">
+                  <div className="p-6 md:p-8">
+                    {selectedJob && !showQuiz && quizScore === null && (
+                      <ApplicationForm
+                        jobTitle={selectedJob.title}
+                        initialData={applicationData ?? undefined}
+                        onCancel={handleCloseApplication}
+                        onContinue={(data) => {
+                          setApplicationData(data);
+                          setShowQuiz(true);
+                        }}
+                      />
+                    )}
+
+                    {selectedJob && showQuiz && quizScore === null && applicationData && (
+                      <JobQuiz
+                        role={applicationData.role}
+                        onBack={() => setShowQuiz(false)}
+                        onComplete={(score) => {
+                          setQuizScore(score);
+                          setShowQuiz(false);
+                        }}
+                      />
+                    )}
+
+                    {selectedJob && !showQuiz && quizScore !== null && (
+                      <QuizResult
+                        score={quizScore}
+                        totalQuestions={
+                          quizQuestions[applicationData?.role ?? selectedJob.title]?.length ?? 0
+                        }
+                        onFinish={handleSubmitApplication}
+                      />
+                    )}
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
 
             {/* Job List */}
             <div className="space-y-4">
@@ -371,7 +512,17 @@ const JobMatching = () => {
                               </div>
                             </DialogContent>
                           </Dialog>
-                          <Button size="sm" className="btn-primary">
+                          <Button
+                            size="sm"
+                            className="btn-primary"
+                            onClick={() => {
+                              setSelectedJob(job);
+                              setApplicationData(null);
+                              setShowQuiz(false);
+                              setQuizScore(null);
+                              setShowApplicationForm(true);
+                            }}
+                          >
                             Easy Apply
                             <ExternalLink className="w-4 h-4 ml-1" />
                           </Button>

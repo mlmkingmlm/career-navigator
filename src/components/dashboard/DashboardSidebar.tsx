@@ -5,7 +5,6 @@ import {
   BookOpen,
   Briefcase,
   MessageSquare,
-  ClipboardCheck,
   ChevronLeft,
   ChevronRight,
   Home,
@@ -177,32 +176,6 @@ const DashboardSidebar = ({
                   className="font-medium"
                 >
                   Home
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </Link>
-
-          {/* Quiz Link */}
-          <Link
-            to="/dashboard/quiz"
-            className={cn(
-              "flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200",
-              location.pathname === "/dashboard/quiz"
-                ? "bg-primary/10 text-primary"
-                : "hover:bg-muted text-muted-foreground hover:text-foreground"
-            )}
-          >
-            <ClipboardCheck className="w-5 h-5 flex-shrink-0" />
-
-            <AnimatePresence mode="wait">
-              {!isCollapsed && (
-                <motion.span
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="font-medium"
-                >
-                  Quiz
                 </motion.span>
               )}
             </AnimatePresence>

@@ -6,7 +6,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '@/contexts/UserContext';
 import { supabase } from '@/integrations/supabase/client';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
-import FloatingNav from '@/components/dashboard/FloatingNav';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import {
@@ -195,9 +194,7 @@ const JobsList = () => {
             )}
           </div>
         </main>
-
-        {/* <FloatingNav /> */}
-
+        
         {/* Cover Letter Dialog */}
         <Dialog open={!!selectedJob} onOpenChange={() => setSelectedJob(null)}>
           <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">

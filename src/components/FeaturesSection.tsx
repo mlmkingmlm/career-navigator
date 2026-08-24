@@ -2,10 +2,10 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  FileSearch, 
-  FileText, 
-  GitBranch, 
+import {
+  FileSearch,
+  FileText,
+  GitBranch,
   Briefcase,
   ArrowRight,
   CheckCircle2
@@ -68,22 +68,22 @@ const FeaturesSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="text-center max-w-3xl mx-auto mb-10 sm:mb-12 lg:mb-16 px-2"
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-secondary/10 text-secondary text-sm font-medium mb-4">
             Core Features
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-4 leading-tight">
             AI-Powered Career{' '}
             <span className="gradient-text">Intelligence</span>
           </h2>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-base sm:text-lg text-muted-foreground">
             Four powerful AI tools working together to transform your career journey from uncertain to unstoppable.
           </p>
         </motion.div>
 
         {/* Features Grid */}
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 lg:gap-8">
           {features.map((feature, index) => (
             <motion.div
               key={index}
@@ -92,22 +92,26 @@ const FeaturesSection = () => {
               transition={{ duration: 0.6, delay: index * 0.15 }}
               className="group"
             >
-              <div className="glass-card-hover h-full p-8">
+              <div className="glass-card-hover h-full p-5 sm:p-6 lg:p-8">
                 {/* Header */}
-                <div className="flex items-start gap-4 mb-6">
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
-                    <feature.icon className="w-8 h-8 text-primary-foreground" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-primary mb-2">{feature.title}</h3>
-                    <p className="text-muted-foreground">{feature.description}</p>
+                <div className="flex items-start gap-3 sm:gap-4 mb-5 sm:mb-6">
+                  <div
+                    className={`w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16
+    rounded-2xl bg-gradient-to-br ${feature.color}
+    flex items-center justify-center flex-shrink-0
+    group-hover:scale-110 transition-transform duration-300`}
+                  >
+                    <feature.icon className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-primary-foreground" />                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg sm:text-xl font-bold text-primary mb-2 leading-snug">{feature.title}</h3>
+                    <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{feature.description}</p>
                   </div>
                 </div>
 
                 {/* Highlights */}
-                <div className={`${feature.bgColor} rounded-xl p-5 mb-6`}>
-                  <div className="grid grid-cols-2 gap-3">
-                    {feature.highlights.map((highlight, hIndex) => (
+                <div className={`${feature.bgColor} rounded-xl p-4 sm:p-5 mb-6`}>
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {feature.highlights.map((highlight, hIndex) => (
                       <div key={hIndex} className="flex items-center gap-2">
                         <CheckCircle2 className="w-4 h-4 text-secondary flex-shrink-0" />
                         <span className="text-sm font-medium text-foreground">{highlight}</span>

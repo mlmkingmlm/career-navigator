@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  FileText, 
-  BookOpen, 
-  Briefcase, 
-  Target, 
+import {
+  FileText,
+  BookOpen,
+  Briefcase,
+  Target,
   Upload,
   Home,
   Sparkles,
   Menu,
-  X
+  X,
+  ArrowLeft
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -41,9 +42,8 @@ const DashboardNavbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'glass-navbar' : 'bg-background/80 backdrop-blur-md'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass-navbar' : 'bg-background/80 backdrop-blur-md'
+        }`}
     >
       <div className="container-custom px-4">
         <div className="flex items-center justify-between h-16">
@@ -84,10 +84,15 @@ const DashboardNavbar = () => {
           </div>
 
           {/* Back to Home Link */}
-          <Link 
-            to="/" 
-            className="hidden md:flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors"
+          <Link
+            to="/"
+            className="hidden md:flex items-center gap-1.5 text-sm font-medium
+             text-muted-foreground
+             hover:text-primary hover:bg-primary/5
+             px-3 py-2 rounded-lg
+             transition-all duration-200"
           >
+            <ArrowLeft className="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
             Back to Home
           </Link>
 
@@ -129,8 +134,8 @@ const DashboardNavbar = () => {
                 </Link>
               );
             })}
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               onClick={() => setIsMobileMenuOpen(false)}
               className="flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 mt-2 border-t border-border pt-4"
             >

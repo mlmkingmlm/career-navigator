@@ -1,12 +1,10 @@
 import { Helmet } from 'react-helmet-async';
-import LandingNavbar from '@/components/LandingNavbar';
 import HeroSection from '@/components/HeroSection';
 import ProblemSection from '@/components/ProblemSection';
 import FeaturesSection from '@/components/FeaturesSection';
 import CareerJourneySection from '@/components/CareerJourneySection';
 import MetricsSection from '@/components/MetricsSection';
 import CTASection from '@/components/CTASection';
-import Footer from '@/components/Footer';
 
 const Index = () => {
   return (
@@ -20,8 +18,8 @@ const Index = () => {
         <meta property="og:description" content="Transform your career with AI-powered resume optimization, skill gap analysis, and intelligent job matching." />
         <meta property="og:type" content="website" />
       </Helmet>
-      
-      <main className="min-h-screen bg-background overflow-x-hidden">
+
+      <main className="min-h-screen bg-background overflow-x-hidden px-2">
         <section id="hero">
           <HeroSection />
         </section>

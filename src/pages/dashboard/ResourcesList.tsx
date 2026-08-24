@@ -6,7 +6,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '@/contexts/UserContext';
 import { supabase } from '@/integrations/supabase/client';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
-import FloatingNav from '@/components/dashboard/FloatingNav';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import DashboardNavbar from '@/components/DashboardNavbar';
@@ -201,8 +200,6 @@ const ResourcesList = () => {
             )}
           </div>
         </main>
-
-        {/* <FloatingNav /> */}
       </div>
     </>
   );
